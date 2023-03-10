@@ -1,0 +1,62 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct{
+struct Name{
+	char country[20];
+	char nal[20];
+	int price;
+	}fli;
+struct date{
+	int day;
+	int mounth;
+	int year;
+	}bday;
+}fly;
+
+int main(int argc, char *argv[])
+{
+	system("chcp 65001");
+	FILE *f=fopen("flight.txt","r");
+	fly a;
+	fly *x = NULL;
+	int i =0;
+	
+	while (!feof(f))
+	{
+		fscanf(f,"%s",a.fli.country);
+		
+		fscanf(f,"%d",&a.bday.day);
+		fscanf(f,"%d",&a.bday.mounth);
+		fscanf(f,"%d",&a.bday.year);
+		
+		fscanf(f,"%s",a.fli.nal);
+		fscanf(f,"%d",&a.fli.price);
+		
+		x = (fly*)realloc(x,sizeof(fly)*(i+1));
+		x[i] = a;
+		i++;
+	}
+	fclose(f);
+	
+	printf("Список рейсов:\n");
+	for (int j	= 0;j < i;j++)
+		printf("%s %2d %2d %4d  %s  %3d\n",x[j].fli.country,x[j].bday.day,x[j].bday.mounth,x[j].bday.year,x[j].fli.nal,x[j].fli.price);
+		
+	printf("Введите по вашему мнению нормальную цену на билет:   ");
+	
+	int norm_price,dayy,mmonth,yyear;
+	
+	scanf("%d",&norm_price);
+	printf("\n");
+	printf("Введите дату на которую желаете отправиться в путешествие:  ");
+	scanf("%d%d%d",&dayy,&mmonth,&yyear);
+	
+	for(int j = 0;j < i; j++)
+	{
+		if ((x[j].fli.price <= norm_price) && (dayy == x[j].bday.day) && (mmonth == x[j].bday.mounth) && (yyear == x[j].bday.year))
+			printf("%s %2d %2d %4d  %s  %3d\n",x[j].fli.country,x[j].bday.day,x[j].bday.mounth,x[j].bday.year,x[j].fli.nal,x[j].fli.price);
+	}
+	
+	return 0;
+}
